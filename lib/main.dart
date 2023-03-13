@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:student_app/screens/home_screen.dart';
 import 'package:student_app/view/login_page.dart';
 import 'package:get/get.dart';
 
+import 'controllers/bindings/HomeBinding.dart';
 import 'controllers/bindings/LoginBinding.dart';
+import 'utils/sharepref.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SharedPrefs.init();
   runApp(const MyApp());
 }
 
@@ -15,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'NextGen Attendance Student',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -25,6 +31,11 @@ class MyApp extends StatelessWidget {
           name: '/login',
           page: () => LoginScreen(),
           binding: LoginBinding(),
+        ),
+        GetPage(
+          name: '/homeScreen',
+          page: () => HomeScreen(),
+          binding: HomeBinding(),
         ),
       ],
     );
