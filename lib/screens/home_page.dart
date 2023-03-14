@@ -64,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               final locationController =
                                   Get.find<LocationController>();
                               locationController.startLocationRecording(userId);
-
                               setState(() {
                                 getLocation();
                                 light0 = value;

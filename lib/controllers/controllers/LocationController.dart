@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:location/location.dart';
-
 import '../service/location_service.dart';
 
 class LocationController extends GetxController {

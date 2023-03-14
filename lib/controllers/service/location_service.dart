@@ -5,7 +5,8 @@ import 'package:location/location.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class LocationService extends GetxService {
-  Location location = Location();
+  final Location location = Location();
+
   final database = FirebaseDatabase.instanceFor(
           app: Firebase.app(),
           databaseURL:
@@ -22,8 +23,9 @@ class LocationService extends GetxService {
         throw Exception('Location permission denied');
       }
     }
+    location.enableBackgroundMode(enable: true);
     _locationSubscription = location.onLocationChanged.listen((locationData) {
-      print('_locationSubscription onChage called');
+      print('_locationSubscription onChange called');
       _updateDatabase(userId, locationData);
     });
   }
@@ -31,7 +33,6 @@ class LocationService extends GetxService {
   void _updateDatabase(String userId, LocationData locationData) async {
     String path = userId;
     final userIdRef = database.child(path);
-    print('update db called');
     print(userId);
     userIdRef.set({
       'latitude': locationData.latitude,
