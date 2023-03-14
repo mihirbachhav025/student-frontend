@@ -85,6 +85,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   final _userPasswordController = TextEditingController();
   final _passwordFocusNode = FocusNode();
   final bool _isPasswordVisible = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -94,112 +95,98 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   }
 
   ///save form
-  _saveForm() {
+  _saveForm() async {
     _formKey.currentState?.save();
-    print('===================helllo =======================');
-    checkLogin(_userIdController.text, _userPasswordController.text);
+    print(_isLoading);
+    setState(() {
+      _isLoading = true;
+    });
+    await checkLogin(_userIdController.text, _userPasswordController.text);
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   //login contoller called
-  void checkLogin(String userId, String password) async {
+  Future<void> checkLogin(String userId, String password) async {
     await widget.loginController.login(userId, password);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      autovalidateMode: AutovalidateMode.disabled,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: TextFormField(
-              controller: _userIdController,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              onFieldSubmitted: (_) {
-                FocusScope.of(context).requestFocus(_passwordFocusNode);
-              },
-              validator: ((value) {
-                bool emailValid = value!.length >= 11;
-                if (!emailValid) {
-                  return "Enter valid student Id number";
-                } else {
-                  return null;
-                }
-              }),
-              onSaved: ((newValue) {}),
-              decoration:
-                  InputDecoration(label: Text('Enter your Student Id number')),
+    return Stack(children: [
+      Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.disabled,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: TextFormField(
+                controller: _userIdController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(_passwordFocusNode);
+                },
+                validator: ((value) {
+                  bool emailValid = value!.length >= 11;
+                  if (!emailValid) {
+                    return "Enter valid student Id number";
+                  } else {
+                    return null;
+                  }
+                }),
+                onSaved: ((newValue) {}),
+                decoration: InputDecoration(
+                    label: Text('Enter your Student Id number')),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: TextFormField(
-              controller: _userPasswordController,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.done,
-              focusNode: _passwordFocusNode,
-              validator: (value) {
-                if (value!.length < 5) {
-                  return "Enter a valid password";
-                } else {
-                  return null;
-                }
-              },
-              decoration: InputDecoration(label: Text('Enter your password')),
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: TextFormField(
+                controller: _userPasswordController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.done,
+                focusNode: _passwordFocusNode,
+                validator: (value) {
+                  if (value!.length < 5) {
+                    return "Enter a valid password";
+                  } else {
+                    return null;
+                  }
+                },
+                decoration: InputDecoration(label: Text('Enter your password')),
+              ),
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .05,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              _saveForm();
-            },
-            child: Text('Login'),
-            style: ElevatedButton.styleFrom(
-                minimumSize: Size(MediaQuery.of(context).size.width * .35,
-                    MediaQuery.of(context).size.height * .05),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30))),
-          )
-        ],
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .05,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _saveForm();
+              },
+              child: Text('Login'),
+              style: ElevatedButton.styleFrom(
+                  minimumSize: Size(MediaQuery.of(context).size.width * .35,
+                      MediaQuery.of(context).size.height * .05),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30))),
+            )
+          ],
+        ),
       ),
-    );
+      if (_isLoading)
+        Container(
+          height: widget.height * 0.60,
+          color: Colors.black.withOpacity(0.5),
+          child: const Center(
+            child: CircularProgressIndicator.adaptive(
+              backgroundColor: Colors.red,
+            ),
+          ),
+        ),
+    ]);
   }
-
-// }
-
-// ////uselsss code
-// ///void checkLogin(String username, String password) async {
-//   // BaseOptions options =
-//   //     //change here if necessary
-//   //     BaseOptions(baseUrl: "http://192.168.137.1:3000", headers: {
-//   //   HttpHeaders.acceptHeader: "json/application/json",
-//   //   HttpHeaders.contentTypeHeader: "application/raw"
-//   // }
-//   //         // connectTimeout: 1000,
-//   //         // receiveTimeout: 3000,
-//   //         );
-//   Dio dio = Dio();
-//   try {
-//     // Response resp = await dio.post(
-//     //   //change here if necessary
-//     //   options.baseUrl + "/loginuer",
-//     //   data: {"username": username, "password": password},
-//     // );
-//     final response = await dio.post(
-//       //'http://192.168.137.1:3000/login
-//       'http://192.168.137.1:3000/api/v1/login',
-//       data: {"username": username, "password": password},
-//     );
-//     print(response.data);
-//   } catch (e) {
-//     print("Exception: $e");
-//   }
-
-//   dio.close();
 }

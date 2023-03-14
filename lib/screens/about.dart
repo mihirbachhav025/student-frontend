@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/view/timetable.dart';
-import 'package:student_app/view/profile.dart';
+import 'package:student_app/screens/timetable.dart';
+import 'package:student_app/screens/profile.dart';
 
 class About extends StatelessWidget {
   const About({Key? key}) : super(key: key);

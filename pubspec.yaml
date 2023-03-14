@@ -31,12 +31,17 @@ dependencies:
   connectivity_plus: ^3.0.3
   cupertino_icons: ^1.0.2
   dio: ^4.0.6
+  firebase_auth: ^4.2.10
+  firebase_core: ^2.7.1
+  firebase_database: ^10.0.15
+  firebase_storage: ^11.0.15
   flutter:
     sdk: flutter
   geolocator: ^9.0.2
   get: ^4.6.5
   http: ^0.13.3
   internet_connection_checker: ^1.0.0+1
+  location: ^4.4.0
   shared_preferences: ^2.0.18
 
 dev_dependencies:

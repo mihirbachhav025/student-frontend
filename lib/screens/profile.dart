@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/view/about.dart';
-import 'package:student_app/view/timetable.dart';
+import 'package:student_app/screens/about.dart';
+import 'package:student_app/screens/timetable.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);

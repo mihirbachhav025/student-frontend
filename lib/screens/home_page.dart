@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:student_app/utils/sharepref.dart';
+
+import '../controllers/controllers/LocationController.dart';
 
 void getLocation() async {
   await Geolocator.checkPermission();
@@ -19,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool light0 = false;
+  String userId = SharedPrefs.getUserId()!;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             activeColor: Colors.white,
                             value: light0,
                             onChanged: (bool value) {
+                              final locationController =
+                                  Get.find<LocationController>();
+                              locationController.startLocationRecording(userId);
                               setState(() {
                                 getLocation();
                                 light0 = value;

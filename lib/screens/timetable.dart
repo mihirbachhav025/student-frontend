@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/view/about.dart';
-import 'package:student_app/view/profile.dart';
+import 'package:student_app/screens/about.dart';
+import 'package:student_app/screens/profile.dart';
 
 class Timetable extends StatefulWidget {
   const Timetable({Key? key}) : super(key: key);
