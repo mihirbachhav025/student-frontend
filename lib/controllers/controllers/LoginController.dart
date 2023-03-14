@@ -23,7 +23,7 @@ class LoginController extends GetxController {
     if (_connectionUtil.hasConnection) {
       try {
         final response = await dio.post(
-          'http://192.168.5.102:3000/api/v1/login',
+          'http://192.168.5.101:3000/api/v1/login',
           //in backend its username change afterwards
           data: {"userId": userId, "password": password},
         );

@@ -13,7 +13,9 @@ import 'utils/sharepref.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseApp app = await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await SharedPrefs.init();
   Get.put<LocationService>(LocationService(), permanent: true);
   Get.put(LocationController());
@@ -24,7 +26,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   String returnRoute() {
-    if (SharedPrefs.getIdentityToken()!.isNotEmpty) {
+    if (SharedPrefs.getIdentityToken() != null) {
       return '/homeScreen';
     } else {
       return '/login';
