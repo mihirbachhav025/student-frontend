@@ -10,6 +10,7 @@ import 'controllers/controllers/LocationController.dart';
 import 'firebase_options.dart';
 import 'screens/home_page.dart';
 import 'utils/sharepref.dart';
+import 'package:logger/logger.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,14 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   String returnRoute() {
-    if (SharedPrefs.getIdentityToken() != null) {
+    final String? x = SharedPrefs.getIdentityToken();
+    if (x != null && x.length != 0) {
+      Logger logger = Logger();
+
+      logger.d('=========Identity token here==========');
+      logger.d("${SharedPrefs.getIdentityToken()}");
+      logger.d(x.length);
+      logger.d('====================');
       return '/homeScreen';
     } else {
       return '/login';

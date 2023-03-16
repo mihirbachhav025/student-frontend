@@ -4,17 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:student_app/controllers/controllers/LoginController.dart';
 import 'package:student_app/utils/sharepref.dart';
 
 import '../controllers/controllers/LocationController.dart';
-
-void getLocation() async {
-  await Geolocator.checkPermission();
-  await Geolocator.requestPermission();
-  Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high);
-  print(position);
-}
+import '../controllers/controllers/LoginController.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -65,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Get.find<LocationController>();
                               locationController.startLocationRecording(userId);
                               setState(() {
-                                getLocation();
                                 light0 = value;
                               });
                             },
@@ -205,6 +198,13 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('View Attendance'),
               onTap: () {
                 Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Logout'),
+              onTap: () async {
+                final loginController = Get.find<LoginController>();
+                await loginController.logout();
               },
             ),
           ],

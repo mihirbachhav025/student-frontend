@@ -23,7 +23,7 @@ class LoginController extends GetxController {
     if (_connectionUtil.hasConnection) {
       try {
         final response = await dio.post(
-          'http://192.168.5.101:3000/api/v1/login',
+          'http://localhost:3000/api/v1/login',
           //in backend its username change afterwards
           data: {"userId": userId, "password": password},
         );
@@ -45,6 +45,19 @@ class LoginController extends GetxController {
       }
     } else {
       Get.snackbar('Login failed', 'No internet Connection');
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _auth.signOut();
+      Get.toNamed('/login');
+      SharedPrefs.setCustomToken('');
+      SharedPrefs.setIdentityToken('');
+      SharedPrefs.setUserId('');
+    } catch (e) {
+      print(e.toString());
+      Get.snackbar('Logout failed', 'Error Ocurred');
     }
   }
 
