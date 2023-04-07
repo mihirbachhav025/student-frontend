@@ -11,6 +11,7 @@ import 'firebase_options.dart';
 import 'screens/home_page.dart';
 import 'utils/sharepref.dart';
 import 'package:logger/logger.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,17 +29,15 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   String returnRoute() {
     final String? x = SharedPrefs.getIdentityToken();
-    if (x != null && x.length != 0) {
+    if (x != null && x.length != 0 && !JwtDecoder.isExpired(x)) {
       Logger logger = Logger();
-
       logger.d('=========Identity token here==========');
       logger.d("${SharedPrefs.getIdentityToken()}");
       logger.d(x.length);
       logger.d('====================');
       return '/homeScreen';
-    } else {
-      return '/login';
     }
+    return '/login';
   }
 
   // This widget is the root of your application.

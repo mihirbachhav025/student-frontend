@@ -23,7 +23,7 @@ class LoginController extends GetxController {
     if (_connectionUtil.hasConnection) {
       try {
         final response = await dio.post(
-          'http://localhost:3000/api/v1/login',
+          'http://localhost:3000/api/v1/login/student',
           //in backend its username change afterwards
           data: {"userId": userId, "password": password},
         );
@@ -35,6 +35,7 @@ class LoginController extends GetxController {
         final data = response.data as Map<String, dynamic>;
         final String msg = data['message'];
         _customToken = data['token'];
+
         await SharedPrefs.setCustomToken(_customToken);
         await SharedPrefs.setUserId(userId);
         await _createIdentityToken();
